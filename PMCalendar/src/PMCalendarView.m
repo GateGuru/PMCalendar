@@ -395,22 +395,19 @@
         }
     }
 
-    if (![_period isEqual:localPeriod])
-    {
-        _period = localPeriod;
-        
-        if (!_currentDate)
-        {
-            self.currentDate = period.startDate;
-        }
-        
-        if ([self.delegate respondsToSelector:@selector(periodChanged:)])
-        {
-            [self.delegate periodChanged:_period];
-        }
+    _period = localPeriod;
 
-        [self periodUpdated];
+    if (!_currentDate)
+    {
+        self.currentDate = period.startDate;
     }
+
+    if ([self.delegate respondsToSelector:@selector(periodChanged:)])
+    {
+        [self.delegate periodChanged:_period];
+    }
+
+    [self periodUpdated];
 }
 
 #pragma mark - Touches handling -
