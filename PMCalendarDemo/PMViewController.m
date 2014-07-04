@@ -28,21 +28,26 @@
     }
     
     BOOL isPopover = YES;
+    
+    // limit apple calendar to 2 months before and 2 months after current date
+    PMPeriod *allowed = [PMPeriod periodWithStartDate:[[NSDate date] dateByAddingMonths:-2]
+                                              endDate:[[NSDate date] dateByAddingMonths:2]];
+    
     if ([sender tag] == 10)
     {
         isPopover = NO;
         self.pmCC = [[PMCalendarController alloc] initWithThemeName:@"apple calendar"];
-        // limit apple calendar to 2 months before and 2 months after current date
-//        self.pmCC.allowedPeriod = [PMPeriod periodWithStartDate:[[NSDate date] dateByAddingMonths:-2]
-//                                                        endDate:[[NSDate date] dateByAddingMonths:2]];
+//        self.pmCC.allowedPeriod = allowed;
     }
     else
     {
         self.pmCC = [[PMCalendarController alloc] initWithThemeName:@"default"];
+//        self.pmCC.allowedPeriod = allowed;
     }
     
     self.pmCC.delegate = self;
     self.pmCC.mondayFirstDayOfWeek = NO;
+    //self.pmCC.showOnlyCurrentMonth = YES; //Only show days in current month
 
     if ([sender tag] == 10)
     {

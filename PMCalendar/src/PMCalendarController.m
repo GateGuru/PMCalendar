@@ -31,7 +31,7 @@ NSString *kPMCalendarRedrawNotification = @"kPMCalendarRedrawNotification";
 @property (nonatomic, assign) CGPoint savedArrowPosition;
 @property (nonatomic, assign) UIDeviceOrientation currentOrientation;
 @property (nonatomic, assign) CGRect initialFrame;
-@property (nonatomic, assign) CGSize initialSize;
+//@property (nonatomic, assign) CGSize initialSize;
 
 @end
 
@@ -69,7 +69,7 @@ NSString *kPMCalendarRedrawNotification = @"kPMCalendarRedrawNotification";
 
 - (void) initializeWithSize:(CGSize) size
 {
-    self.initialSize = size;
+//    self.initialSize = size;
     CGSize arrowSize = kPMThemeArrowSize;
     CGSize outerPadding = kPMThemeOuterPadding;
     self.calendarArrowDirection = PMCalendarArrowDirectionUnknown;
@@ -98,7 +98,8 @@ NSString *kPMCalendarRedrawNotification = @"kPMCalendarRedrawNotification";
                                                                                               , kPMThemeInnerPadding.height)
                                                                                   , kPMThemeShadowPadding)];
     self.digitsView.delegate = self;
-
+    
+    
     [self.calendarView addSubview:self.digitsView];
     [self.mainView addSubview:self.calendarView];
     
@@ -329,7 +330,7 @@ NSString *kPMCalendarRedrawNotification = @"kPMCalendarRedrawNotification";
     CGRect rectInAppWindow = [self.view convertRect:rect fromView:view];
     [self adjustCalendarPositionForPermittedArrowDirections:arrowDirections
                                           arrowPointsToRect:rectInAppWindow];
-    self.initialFrame = CGRectMake(self.mainView.frame.origin.x, self.mainView.frame.origin.y, self.initialSize.width, self.initialSize.height);
+    self.initialFrame = self.mainView.frame;//CGRectMake(self.mainView.frame.origin.x, self.mainView.frame.origin.y, self.initialSize.width, self.initialSize.height);
     [self fullRedraw];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -421,6 +422,17 @@ NSString *kPMCalendarRedrawNotification = @"kPMCalendarRedrawNotification";
 - (void)setMondayFirstDayOfWeek:(BOOL)mondayFirstDayOfWeek
 {
     self.digitsView.mondayFirstDayOfWeek = mondayFirstDayOfWeek;
+}
+
+- (BOOL)showOnlyCurrentMonth
+{
+    return  self.digitsView.showOnlyCurrentMonth;
+}
+
+- (void)setShowOnlyCurrentMonth:(BOOL)showOnlyCurrentMonth
+{
+    self.digitsView.showOnlyCurrentMonth = showOnlyCurrentMonth;
+    [self.digitsView setDisplayCurrentMonthOnly];
 }
 
 - (BOOL)allowsPeriodSelection

@@ -150,6 +150,9 @@ static PMThemeEngine* sharedInstance;
         case PMThemeCalendarDigitsTodaySelectedElementType:
             result = @"Calendar digits today selected";
             break;
+        case PMThemeCalendarDigitsNotAllowedElementType:
+            result = @"Calendar digits not allowed";
+            break;
         case PMThemeMonthArrowsElementType:
             result = @"Month arrows";
             break;
@@ -321,7 +324,20 @@ static PMThemeEngine* sharedInstance;
 
     NSAssert(usedFont != nil, @"Please provide proper font either in theme file or in a code.");
     
-    CGSize sz = [string sizeWithFont:usedFont];
+    CGSize sz = CGSizeZero;
+    if(usedFont)
+    {
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        
+            sz = [string sizeWithAttributes:@{NSFontAttributeName:usedFont}];
+        } else {
+            
+            sz = [string sizeWithFont:usedFont];
+        }
+    }
+    
+    
+    
     BOOL isGradient = ![colorObj isKindOfClass:[NSString class]];
     CGSize shadowOffset = CGSizeZero;
 
